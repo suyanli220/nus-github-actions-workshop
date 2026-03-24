@@ -1,7 +1,7 @@
-# Runs the frontend (JavaScript) tests on every push to main or starter
-# and on every pull request targeting those branches.
+# Runs the backend (Python) tests on every push to main or starter
+# and on every pull request targeting main or starter.
 
-name: Frontend Tests
+name: Backend Tests
 
 on:
   push:
@@ -10,17 +10,19 @@ on:
     branches: [main, starter]
 
 jobs:
-  test-frontend:
+  test-backend:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: "20"
+          python-version: "3.12"
 
-      - name: Run frontend tests
-        run: node --test tests/test_logic.js
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
+      - name: Run backend tests
+        run: pytest -v
